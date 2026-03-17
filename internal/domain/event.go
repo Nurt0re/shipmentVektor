@@ -11,7 +11,7 @@ type Event struct {
 	Err       error
 }
 
-func (s *Shipment) AddEvent(event Event) error {
+func (s *Shipment) ApplyEvent(event Event) error {
 
 	if !s.CanUpdate(event.Status) {
 		return fmt.Errorf("invalid status update")
