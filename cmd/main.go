@@ -14,33 +14,29 @@ import (
 )
 
 func main() {
+	log.Println("Starting gRPC shipment service...")
 
 	cfg := pkg.LoadConfig()
-
 	db, err := pkg.NewPostgresDB(cfg.DBConn)
 	if err != nil {
-		log.Fatalf("failed to connect to db: %v", err)
+		log.Fatalf("Failed to connect to database: %v", err)
 	}
 
 	repo := postgres.NewRepository(db)
-
 	service := application.NewShipmentService(repo)
-
 	handler := grpc.NewHandler(service)
 
 	lis, err := net.Listen("tcp", ":"+cfg.Port)
 	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
+		log.Fatalf("Failed to listen on port %s: %v", cfg.Port, err)
 	}
 
 	grpcServer := grpcserver.NewServer()
-
 	pb.RegisterShipmentServiceServer(grpcServer, handler)
 	reflection.Register(grpcServer)
 
-	log.Printf("gRPC server running on port %s", cfg.Port)
-
+	log.Printf("gRPC server listening on port %s", cfg.Port)
 	if err := grpcServer.Serve(lis); err != nil {
-		log.Fatalf("failed to serve: %v", err)
+		log.Fatalf("Server error: %v", err)
 	}
 }

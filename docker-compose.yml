@@ -1,0 +1,52 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: shipment-postgres
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: shipment
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - shipment-network
+
+  migrate:
+    image: migrate/migrate
+    container_name: shipment-migrate
+    volumes:
+      - ./internal/migrations:/migrations
+    command: -path /migrations -database "postgres://user:pass@postgres:5432/shipment?sslmode=disable" up
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - shipment-network
+
+  app:
+    build: .
+    container_name: shipment-app
+    environment:
+      DB_CONN: "postgres://user:pass@postgres:5432/shipment?sslmode=disable"
+      PORT: 8080
+    ports:
+      - "8080:8080"
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks:
+      - shipment-network
+
+volumes:
+  postgres_data:
+
+networks:
+  shipment-network:
+    driver: bridge

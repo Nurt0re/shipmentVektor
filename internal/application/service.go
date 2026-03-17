@@ -2,6 +2,7 @@ package application
 
 import (
 	"context"
+	"log"
 	"shipment/internal/domain"
 	"shipment/internal/ports/inbound"
 	"shipment/internal/ports/outbound"
@@ -27,10 +28,10 @@ func (s *ShipmentService) CreateShipment(
 	cost float64,
 	revenue float64,
 ) (*domain.Shipment, error) {
-
 	shipment := domain.NewShipment(id, reference, origin, destination, cost, revenue)
 	err := s.repo.Save(ctx, shipment)
 	if err != nil {
+		log.Printf("CreateShipment save error: %v", err)
 		return nil, err
 	}
 	return shipment, nil
@@ -43,6 +44,7 @@ func (s *ShipmentService) GetShipment(ctx context.Context, id string) (*domain.S
 func (s *ShipmentService) AddEvent(ctx context.Context, id string, status domain.Status) error {
 	shipment, err := s.repo.GetByID(ctx, id)
 	if err != nil {
+		log.Printf("AddEvent get error: %v", err)
 		return err
 	}
 
@@ -53,10 +55,16 @@ func (s *ShipmentService) AddEvent(ctx context.Context, id string, status domain
 
 	err = shipment.ApplyEvent(event)
 	if err != nil {
+		log.Printf("AddEvent apply error: %v", err)
 		return err
 	}
 
-	return s.repo.Save(ctx, shipment)
+	err = s.repo.Save(ctx, shipment)
+	if err != nil {
+		log.Printf("AddEvent save error: %v", err)
+		return err
+	}
+	return nil
 }
 
 func (s *ShipmentService) GetHistory(ctx context.Context, id string) ([]domain.Event, error) {

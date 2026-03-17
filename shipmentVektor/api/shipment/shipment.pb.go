@@ -491,6 +491,7 @@ func (x *AddEventRequest) GetStatus() Status {
 type AddEventResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Shipment      *Shipment              `protobuf:"bytes,1,opt,name=shipment,proto3" json:"shipment,omitempty"`
+	Msg           string                 `protobuf:"bytes,2,opt,name=msg,proto3" json:"msg,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -530,6 +531,13 @@ func (x *AddEventResponse) GetShipment() *Shipment {
 		return x.Shipment
 	}
 	return nil
+}
+
+func (x *AddEventResponse) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
 }
 
 type GetShipmentHistoryRequest struct {
@@ -651,9 +659,10 @@ const file_api_shipment_proto_rawDesc = "" +
 	"\bshipment\x18\x01 \x01(\v2\x12.shipment.ShipmentR\bshipment\"K\n" +
 	"\x0fAddEventRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12(\n" +
-	"\x06status\x18\x02 \x01(\x0e2\x10.shipment.StatusR\x06status\"B\n" +
+	"\x06status\x18\x02 \x01(\x0e2\x10.shipment.StatusR\x06status\"T\n" +
 	"\x10AddEventResponse\x12.\n" +
-	"\bshipment\x18\x01 \x01(\v2\x12.shipment.ShipmentR\bshipment\"+\n" +
+	"\bshipment\x18\x01 \x01(\v2\x12.shipment.ShipmentR\bshipment\x12\x10\n" +
+	"\x03msg\x18\x02 \x01(\tR\x03msg\"+\n" +
 	"\x19GetShipmentHistoryRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\"E\n" +
 	"\x1aGetShipmentHistoryResponse\x12'\n" +

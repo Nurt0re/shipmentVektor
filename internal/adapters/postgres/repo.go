@@ -3,6 +3,7 @@ package postgres
 import (
 	"context"
 	"database/sql"
+	"log"
 	"shipment/internal/domain"
 	"shipment/internal/ports/outbound"
 	"time"
@@ -41,6 +42,7 @@ func (r *Repository) Save(ctx context.Context, s *domain.Shipment) error {
 
 	_, err := r.db.ExecContext(ctx, query, s.ID, s.Reference, s.Origin, s.Destination, string(s.Status), s.Cost, s.DriverRevenue)
 	if err != nil {
+		log.Printf("Save error: %v", err)
 		return err
 	}
 
@@ -48,6 +50,7 @@ func (r *Repository) Save(ctx context.Context, s *domain.Shipment) error {
 		_, err := r.db.ExecContext(ctx, `INSERT INTO shipment_events (shipment_id, status, timestamp) VALUES ($1, $2, $3)`,
 			s.ID, string(event.Status), event.Timestamp.Unix())
 		if err != nil {
+			log.Printf("Save event error: %v", err)
 			return err
 		}
 	}
@@ -61,6 +64,7 @@ func (r *Repository) GetByID(ctx context.Context, id string) (*domain.Shipment, 
 	err := r.db.QueryRowContext(ctx, `SELECT id, reference, origin, destination, status, cost, driver_revenue FROM shipments WHERE id = $1`, id).
 		Scan(&shipment.ID, &shipment.Reference, &shipment.Origin, &shipment.Destination, &status, &shipment.Cost, &shipment.DriverRevenue)
 	if err != nil {
+		log.Printf("GetByID error: %v", err)
 		return nil, err
 	}
 
@@ -76,6 +80,7 @@ func (r *Repository) GetByID(ctx context.Context, id string) (*domain.Shipment, 
 		var eventStatus string
 		var timestamp int64
 		if err := rows.Scan(&eventStatus, &timestamp); err != nil {
+			log.Printf("Scan error: %v", err)
 			return nil, err
 		}
 		shipment.Events = append(shipment.Events, domain.Event{

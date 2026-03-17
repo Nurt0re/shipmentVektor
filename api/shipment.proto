@@ -59,6 +59,7 @@ message AddEventRequest {
 }
 message AddEventResponse {
   Shipment shipment = 1;
+  string msg = 2;
 }
 
 message GetShipmentHistoryRequest {
