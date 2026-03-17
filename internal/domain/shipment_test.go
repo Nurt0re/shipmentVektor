@@ -6,7 +6,7 @@ import (
 )
 
 func TestValidStatusUpdate(t *testing.T) {
-	shipment := NewShipment("1", 123, "New York", "Los Angeles", 100.0)
+	shipment := NewShipment("1", 123, "New York", "Los Angeles", 100.0, 50.0)
 
 	err := shipment.ApplyEvent(Event{Status: StatusShipped, Timestamp: time.Now()})
 	if err != nil {
@@ -15,7 +15,7 @@ func TestValidStatusUpdate(t *testing.T) {
 }
 
 func TestInvalidStatusUpdate(t *testing.T) {
-	shipment := NewShipment("1", 123, "New York", "Los Angeles", 100.0)
+	shipment := NewShipment("1", 123, "New York", "Los Angeles", 100.0, 50.0)
 
 	err := shipment.ApplyEvent(Event{Status: StatusDelivered, Timestamp: time.Now()})
 	if err == nil {

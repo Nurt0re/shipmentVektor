@@ -8,7 +8,6 @@ import (
 type Event struct {
 	Status    Status
 	Timestamp time.Time
-	Err       error
 }
 
 func (s *Shipment) ApplyEvent(event Event) error {

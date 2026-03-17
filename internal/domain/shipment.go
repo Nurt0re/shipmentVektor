@@ -13,7 +13,7 @@ type Shipment struct {
 	DriverRevenue   float64
 }
 
-func NewShipment(id string, referenceNumber int32, origin, destination string, cost float64) *Shipment {
+func NewShipment(id string, referenceNumber int32, origin, destination string, cost, revenue float64) *Shipment {
 	return &Shipment{
 		ID:              id,
 		ReferenceNumber: referenceNumber,
@@ -27,6 +27,7 @@ func NewShipment(id string, referenceNumber int32, origin, destination string, c
 				Timestamp: time.Now(),
 			},
 		},
+		DriverRevenue: revenue,
 	}
 }
 
