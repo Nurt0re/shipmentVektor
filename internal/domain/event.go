@@ -4,6 +4,6 @@ import "time"
 
 type Event struct {
 	Status Status
-	timestamp time.Time
-	err error
+	Timestamp time.Time
+	Err error
 }
