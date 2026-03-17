@@ -1,6 +1,6 @@
 CREATE TABLE shipments (
     id TEXT PRIMARY KEY,
-    reference TEXT NOT NULL,
+    reference INT NOT NULL,
     origin TEXT NOT NULL,
     destination TEXT NOT NULL,
     status TEXT NOT NULL,
