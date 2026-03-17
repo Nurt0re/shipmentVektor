@@ -16,6 +16,7 @@ enum Status {
   SHIPPED = 1;
   ON_THE_WAY = 2;
   DELIVERED = 3;
+  UNKNOWN = 4;
 }
 
 message Shipment {

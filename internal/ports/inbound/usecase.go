@@ -5,7 +5,7 @@ import "shipment/internal/domain"
 type ShipmentUseCase interface {
 	CreateShipment(
 		id string,
-		reference string,
+		reference int32,
 		origin string,
 		destination string,
 		amount float64,

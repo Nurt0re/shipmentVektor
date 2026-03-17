@@ -28,6 +28,7 @@ const (
 	Status_SHIPPED    Status = 1
 	Status_ON_THE_WAY Status = 2
 	Status_DELIVERED  Status = 3
+	Status_UNKNOWN    Status = 4
 )
 
 // Enum value maps for Status.
@@ -37,12 +38,14 @@ var (
 		1: "SHIPPED",
 		2: "ON_THE_WAY",
 		3: "DELIVERED",
+		4: "UNKNOWN",
 	}
 	Status_value = map[string]int32{
 		"PENDING":    0,
 		"SHIPPED":    1,
 		"ON_THE_WAY": 2,
 		"DELIVERED":  3,
+		"UNKNOWN":    4,
 	}
 )
 
@@ -654,13 +657,14 @@ const file_api_shipment_proto_rawDesc = "" +
 	"\x19GetShipmentHistoryRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\"E\n" +
 	"\x1aGetShipmentHistoryResponse\x12'\n" +
-	"\x06events\x18\x01 \x03(\v2\x0f.shipment.EventR\x06events*A\n" +
+	"\x06events\x18\x01 \x03(\v2\x0f.shipment.EventR\x06events*N\n" +
 	"\x06Status\x12\v\n" +
 	"\aPENDING\x10\x00\x12\v\n" +
 	"\aSHIPPED\x10\x01\x12\x0e\n" +
 	"\n" +
 	"ON_THE_WAY\x10\x02\x12\r\n" +
-	"\tDELIVERED\x10\x032\xd6\x02\n" +
+	"\tDELIVERED\x10\x03\x12\v\n" +
+	"\aUNKNOWN\x10\x042\xd6\x02\n" +
 	"\x0fShipmentService\x12S\n" +
 	"\x0eCreateShipment\x12\x1f.shipment.CreateShipmentRequest\x1a .shipment.CreateShipmentResponse\x12J\n" +
 	"\vGetShipment\x12\x1c.shipment.GetShipmentRequest\x1a\x1d.shipment.GetShipmentResponse\x12A\n" +
