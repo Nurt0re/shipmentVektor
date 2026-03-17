@@ -18,6 +18,7 @@ func NewHandler(service inbound.ShipmentUseCase) *Handler {
 
 func (h *Handler) CreateShipment(ctx context.Context, req *pb.CreateShipmentRequest) (*pb.CreateShipmentResponse, error) {
 	shipment, err := h.service.CreateShipment(
+		ctx,
 		req.Id,
 		req.Reference,
 		req.Origin,
@@ -34,7 +35,7 @@ func (h *Handler) CreateShipment(ctx context.Context, req *pb.CreateShipmentRequ
 }
 
 func (h *Handler) GetShipment(ctx context.Context, req *pb.GetShipmentRequest) (*pb.GetShipmentResponse, error) {
-	shipment, err := h.service.GetShipment(req.Id)
+	shipment, err := h.service.GetShipment(ctx, req.Id)
 	if err != nil {
 		return nil, err
 	}
@@ -44,7 +45,7 @@ func (h *Handler) GetShipment(ctx context.Context, req *pb.GetShipmentRequest) (
 }
 
 func (h *Handler) AddEvent(ctx context.Context, req *pb.AddEventRequest) (*pb.AddEventResponse, error) {
-	err := h.service.AddEvent(req.Id, protoToStatus(req.Status))
+	err := h.service.AddEvent(ctx, req.Id, protoToStatus(req.Status))
 	if err != nil {
 		return nil, err
 	}
@@ -52,7 +53,7 @@ func (h *Handler) AddEvent(ctx context.Context, req *pb.AddEventRequest) (*pb.Ad
 }
 
 func (h *Handler) GetHistory(ctx context.Context, req *pb.GetShipmentHistoryRequest) (*pb.GetShipmentHistoryResponse, error) {
-	events, err := h.service.GetHistory(req.Id)
+	events, err := h.service.GetHistory(ctx, req.Id)
 	if err != nil {
 		return nil, err
 	}

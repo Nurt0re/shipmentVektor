@@ -8,7 +8,7 @@ import (
 func shipmentToProto(shipment *domain.Shipment) *pb.Shipment {
 	return &pb.Shipment{
 		Id:            shipment.ID,
-		Reference:     shipment.ReferenceNumber,
+		Reference:     shipment.Reference,
 		Origin:        shipment.Origin,
 		Destination:   shipment.Destination,
 		Status:        statusToProto(shipment.Status),

@@ -4,7 +4,7 @@ import "time"
 
 type Shipment struct {
 	ID              string
-	ReferenceNumber int32
+	Reference int32
 	Origin          string
 	Destination     string
 	Status          Status
@@ -13,10 +13,10 @@ type Shipment struct {
 	DriverRevenue   float64
 }
 
-func NewShipment(id string, referenceNumber int32, origin, destination string, cost, revenue float64) *Shipment {
+func NewShipment(id string, reference int32, origin, destination string, cost, revenue float64) *Shipment {
 	return &Shipment{
 		ID:              id,
-		ReferenceNumber: referenceNumber,
+		Reference: reference,
 		Origin:          origin,
 		Destination:     destination,
 		Status:          StatusPending,

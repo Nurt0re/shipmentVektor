@@ -1,8 +1,11 @@
 package outbound
 
-import "shipment/internal/domain"
+import (
+	"context"
+	"shipment/internal/domain"
+)
 
 type ShipmentRepository interface {
-	Save(shipment *domain.Shipment) error
-	GetByID(id string) (*domain.Shipment, error)
+	Save(ctx context.Context, shipment *domain.Shipment) error
+	GetByID(ctx context.Context, id string) (*domain.Shipment, error)
 }
